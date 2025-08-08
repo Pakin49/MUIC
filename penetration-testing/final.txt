@@ -1,0 +1,63 @@
+step 1 : Reconnaisance
+step 2 : Enumerations (active recon)
+step 3 : Scanner to find vulnerability
+step 4 : Exploitation
+  Credential attack
+  Persistence : find a way that you can access the target again
+  Configuration compliance : many target using default configuartions
+  Evasion : be evasive
+  Decompilation : reversed engineering
+step 5 (optional) : Forensics -> use proper tools to do digital forensic
+step 6 : Debugging --> find where in the code that produce the vulnerability
+step 7 : Assurance??
+
+MOST popular os distro
+-Kali
+-Parrot
+-Black Arch
+
+Tools
+recon :
+  passive 
+  - nslookup, host, dig (get domainame)
+      keyword : zone transfer, if not possible brute force
+  - whois 
+  - ExifTool (metadata of the pictures)
+  - theHarvestor 
+  - shodan (iot devices)
+  - recon-ng 
+
+  active
+ - nmap (gui version: zenmap)
+ - enum4linux (scan for SMB protocol)
+vulnerability scanners
+  - OpenVas
+  - Nessus
+  sql injection
+  - SQLmap
+  web application
+  - Nikto
+  - OWASP Zed Attack proxy (ZAP) 
+  for website that using wordpress
+  - WPScan 
+
+Credential attack
+  - John the Ripper : Crack password has
+  - Hydra : brute force attack 
+  - RainbowCrack
+
+Persistence (don't ask)
+Evasion (don't ask)
+
+Exploatation
+  - ** Metasploit ** : msfconsole
+  
+Deopilation (don't ask)
+  - GBD
+  - Windows debugger
+
+forrensics (don't ask)
+S/W assurance (don't ask)
+Wireless tool (don't ask)
+
+focus on step, tools, simple usage

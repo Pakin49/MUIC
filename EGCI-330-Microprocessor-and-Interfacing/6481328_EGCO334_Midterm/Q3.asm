@@ -1,0 +1,83 @@
+
+; mod FF countdown to 7 seg
+
+.macro sevenseg
+	lpm @0, z+
+.endmacro
+
+.macro swapreg16
+	movw r25:r24, @0:@1
+	movw @0:@1, @2:@3
+	movw @2:@3, r25:r24
+.endmacro
+
+.org 0x0000
+	ldi r16, 0xff
+	out ddrb, r16
+	out ddrd, r16
+	ldi xl, low(0x0420)
+	ldi xh, high(0x0420)
+reset:
+	ldi zl, low(0x0420)
+	ldi zh, high(0x0420)
+while:
+	sevenseg r21
+	swapreg16 zh, zl, xh, xl
+	lpm r22, z
+	swapreg16 zh, zl, xh, xl
+	rcall waitanddis
+	cpi zl, 0x0030
+	brne while
+	inc xl
+	cpi xl, 0x0030
+	brne reset
+clr22:
+	ldi xl, low(0x0420)
+	jmp reset
+display7seg:
+	ldi r16, 0b00000010
+	out portb, r16
+	out portd, r21
+	call delay
+	ldi r16, 0b00000001
+	out portb, r16
+	out portd, r22
+	call delay
+	ret
+waitanddis:
+	sts 0x318, r18
+	sts 0x319, r19
+	sts 0x320, r20
+	ldi r18, 2
+wd1: ldi r19, 2
+wd2: ldi r20, 10
+wd3: nop
+	rcall display7seg
+	dec r20
+	brne wd3
+	dec r19
+	brne wd2
+	dec r18
+	brne wd1
+	ret
+delay:
+	sts 0x318, r18
+	sts 0x319, r19
+	sts 0x320, r20
+	ldi r18, 4
+d1: ldi r19, 21
+d2: ldi r20, 25
+d3: nop
+	dec r20
+	brne d3
+	dec r19
+	brne d2
+	dec r18
+	brne d1
+	lds r18, 0x318
+	lds r19, 0x319
+	lds r20, 0x320
+	ret
+
+.org 0x210
+	Table: .db 0x71, 0x79, 0x5e, 0x39, 0x7c, 0x77, 0x6f, 0x7f, 0x07, 0x7d, 0x6d, 0x66, 0x4f, 0x5b, 0x06, 0x3f

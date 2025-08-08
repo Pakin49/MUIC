@@ -1,0 +1,69 @@
+;
+; LAB4.asm
+;
+; Created: 4/11/2567 20:01:47
+; Author : User
+;
+
+
+; Replace with your application code
+.MACRO CHECK
+	CLR R24
+	LDI ZH,high(data7seg*2)
+	LDI ZL,low(data7seg*2)
+	ADD ZL,@0
+	LPM @0,Z
+.ENDMACRO
+
+start:
+	LDI R16,$FF
+	OUT DDRD,R16
+	OUT DDRB,R16
+	LDI R21,$23
+	call seven_seg
+
+seven_seg:
+	LDI R22,0b00001111
+	AND R22,R21
+	LDI R23,0b11110000
+	AND R23,R21
+	SWAP R23
+	CHECK R22
+	CHECK R23
+
+	LDI R16,0b01
+	OUT PORTB,R16
+
+infinte_display:
+	OUT PORTD,R22
+	CALL DELAY
+	COM R16
+	OUT PORTB,R16
+	OUT PORTD,R23
+	CALL DELAY
+	COM R16
+	OUT PORTB,R16
+	JMP infinte_display
+	
+data7seg:
+	.db 0b00111111,0b00000011; 0,1
+	.db 0b01011011,0b01001111; 2,3
+	.db 0b01100110,0b01101101; 4,5
+	.db 0b01111101,0b00000111; 6,7
+	.db 0b01111111,0b01101111; 8,9
+	.db 0b01011111,0b01111100; a,b
+	.db 0b00111001,0b01011110; c,d
+	.db 0b01111001,0b01110001; E,F
+
+DELAY:	LDI	R25, 2
+DL1:	LDI	R26, 200
+DL2:	LDI	R27, 250
+DL3:	NOP
+		NOP
+		DEC	R27
+		BRNE DL3
+		DEC	R26
+		BRNE DL2
+		DEC	R25
+		BRNE DL1
+		RET

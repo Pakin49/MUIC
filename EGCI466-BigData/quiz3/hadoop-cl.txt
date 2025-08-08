@@ -1,0 +1,7 @@
+hadoop jar ///usr/lib/hadoop/hadoop-streaming-3.3.6.jar \
+-files mapper.py,reducer.py  \
+-mapper  mapper.py  \
+-numReduceTasks 1  \
+-reducer reducer.py \
+-input  author.txt  \
+-output  output/

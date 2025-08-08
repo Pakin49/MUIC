@@ -1,0 +1,37 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>C:\Work\MUIC\MicroPro\LAB4\LAB4\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\Debug\LAB4.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>LAB4.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>LAB4.map</FILE>
+  <FILE>LAB4.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <start><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>16</LINE></start>
+  <seven_seg><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>25</LINE></seven_seg>
+  <data7seg><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>73</LINE></data7seg>
+  <DELAY><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>83</LINE></DELAY>
+  <button><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>49</LINE></button>
+  <press><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>61</LINE></press>
+  <turn_off><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>66</LINE></turn_off>
+  <turn_on><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>69</LINE></turn_on>
+  <DL1><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>84</LINE></DL1>
+  <DL2><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>85</LINE></DL2>
+  <DL3><FILE>C:\Work\MUIC\MicroPro\LAB4\LAB4\main.asm</FILE><LINE>86</LINE></DL3>
+ </LABELS>
+</ASSEMBLER_INFO>

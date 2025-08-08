@@ -1,0 +1,33 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\Debug\Midterm.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Midterm.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Midterm.map</FILE>
+  <FILE>Midterm.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <my_data><FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</FILE><LINE>11</LINE></my_data>
+  <encoded_string><FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</FILE><LINE>15</LINE></encoded_string>
+  <start><FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</FILE><LINE>32</LINE></start>
+  <LOP><FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</FILE><LINE>38</LINE></LOP>
+  <base64_data><FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</FILE><LINE>79</LINE></base64_data>
+  <arrange><FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</FILE><LINE>51</LINE></arrange>
+  <end><FILE>G:\Other computers\My Computer\Work\Year3 term1\micropro\Midterm\Midterm\main.asm</FILE><LINE>49</LINE></end>
+ </LABELS>
+</ASSEMBLER_INFO>

@@ -1,0 +1,153 @@
+
+
+Question 1: Create the table below to be in form of Normal Form (NF). 
+(1.1)	Write the SQL statement to create database called “quiz2_studentID”. 
+
+/* -----------------------------------------
+   Add your sql script here (1.1)
+  ------------------------------------------*/
+
+
+
+
+
+
+
+
+
+(1.2)	Based on Table 1, write the SQL statement to create new tables which can represent the 3rd Normal Form on your database.
+-	Each table name must start with NF3_xxx 
+-	Your script must include the SQL script to set all related keys and constrains for each table based on Functional Dependencies (FDs).
+
+/* -----------------------------------------
+   Add your sql script here (1.2)
+  ------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+(1.3)	Write the Functional Dependencies(FDs) for third normal form  (ex.  ID -> FirstName).
+
+/* -----------------------------------------
+   Write the list of your FDs  here (1.3)
+  ------------------------------------------*/
+
+
+
+
+
+
+
+Table 1.
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+|StudentID  |	Name		  |	Dept		    |	Faculty     |   CourseID  |	CourseName			      |	Credits	  |  Grade  |    Instructor	|   InstructorRoom  |
+|-----------|-----------|-------------|-------------|-------------|-----------------------|-----------|---------------------------------------------|
+|S001	      | Tom Jones	|	Mathematics	|	Science	    |   C101	    |	Intro. Statistics	    |	3		      |  B	    |    Sophie		  |   6001            | 
+|S001	      | Tom Jones	|	Mathematics	|	Science	    |   C702	    |	Advanced Mathematics  |	3		      |  A	    |	William		    |   6002            |
+|S001	      | Tom Jones	|	Mathematics	|	Science	    |   C111	    |	Intro. Computer		    |	4		      |  B	    |	William		    |   6002            |
+|-----------|-----------|-------------|-------------|-------------|-----------------------|-----------|---------|---------------|-------------------|
+|S002	      |	Mary Lamb	|	Biology		  |	Science	    |   C702	    |	Advanced Mathematics  |	3		      |  B	    |	William		    |   6002            |   
+|S002	      |	Mary Lamb	|	Biology		  |	Science	    |   C101	    |	Intro. Statistics	    |	3		      |  A	    |	Sophie		    |   6001            |
+|S002	      |	Mary Lamb	|	Biology		  |	Science	    |   C811	    |	Operation Research	  |	2		      |  A	    |	Jane		      |   6003            |
+|-----------|-----------|-------------|-------------|-------------|-----------------------|-----------|---------|---------------|-------------------|
+|S003	      |	Bob Cat		|	Mathematics	|	Science	    |   C101	    |	Intro. Statistics	    |	3		      |  A	    |	Sophie        |   6001            |
+|-----------|-----------|-------------|-------------|-------------|-----------------------|-----------|---------|---------------|-------------------|
+|S004	      |	Tim Gun		|	Computer	  |	Engineering |	C111	      |	Intro. Computer		    |	4		      |  A	    |    William		|   6002            |
+|S004	      |	Tim Gun		|	Computer	  |	Engineering |   C702	    |	Advanced Mathematics  |	3		      |  B	    |	William		    |   6002            |
+|S004	      |	Tim Gun		|	Computer	  |	Engineering |   C811	    |	Operation Research	  |	2		      |  A	    |	Jane		      |   6003            |
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Note: 	- One student can take more than one course.
+        -	Only one instructor per course.
+        -	One instructor can teach more than one course.
+
+
+
+Question 2: Create the table “Car” on your database by using the file Car.sql and read the situation for 2.1 and 2.2.
+
+Situation:
+Suppose the manager of a showroom declares to transfer all the cars manufactured by Honda Company to another showroom and to maintain a proper record for this operation. 
+The database administrator (DBA) will check for the presence of any Honda cars in the records that are not yet transferred (TransferredStatus = 0) by checking the value of the column ‘TransferredSatus’. If he found some, then corresponding transfer operations will be performed and the record will be updated to be transferred (TransferredStatus = 1). 
+What if at the time of updating the database by DBA, another user from the inventory system updates the column ‘TransferredSatus’ of this record to be 2 (TransferredStatus = 2) which means that the transferring is complete. When the DBA queries the result of updating, the DBA will see the TransferredStatus = 2 instead of 1. 
+ 
+(2.1)	What kind of concurrency’s problem for this situation? ( lost update, dirty read, non-repeatable reads, or phantom ) 
+/* -----------------------------------------
+   Write your answer here (2.1)
+  ------------------------------------------*/
+
+
+
+
+
+
+
+
+(2.2)	What is the minimum isolation level that would be suitable for the concurrency in this situation (Read Uncommitted, Read Committed, Repeatable Read, or Serializable)? 
+/* -----------------------------------------
+   Write your answer here (2.2)
+  ------------------------------------------*/ 
+
+
+
+
+
+
+(2.3)	Please write the SQL statement to demonstrate concurrency problem and set the isolation level for this situation 
+  Note: 
+-	You must write the SQL statement for 1st user (DBA) and 2nd user (User from inventory).
+-	The 1st SQL statement must show the table in Table 2 before the records will be updated.
+
+Table 2: The table of Honda cars which are not yet transferred
+-----------------------------------------------------------------------------------------------------
+|CarNo   |    CarBrand    |    CarBodyType  |   CarModel   |     EngineType   |   TransferredStatus |
+-----------------------------------------------------------------------------------------------------
+|5       |    Honda       |    Sedan        |   City       |     Petrol       |   0                 |
+|9       |    Honda       |    Sedan        |   Accord     |     Petrol       |   0                 |
+-----------------------------------------------------------------------------------------------------
+
+/* -----------------------------------------
+   Add your sql script here (2.3) for user1
+  ------------------------------------------*/
+
+
+
+
+
+
+
+/* -----------------------------------------
+   Add your sql script here (2.3) for user2
+  ------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+-- Table 2
+-------------------------------------------------------------------------------------------------
+Create database quiz2;
+Use quiz2;
+
+Create table Honda (
+	CarNo int not null primary key,
+    CarBrand varchar(20),
+    CarBodyType varchar(20),
+    CarModel varchar(20),
+    EngineType  varchar(20),
+    TransferredStatus int
+);
+Insert Honda values (5, 'Honda', 'Sedan','City', 'Petrol', 0);
+Insert Honda values (9, 'Honda', 'Sedan','Accord', 'Petrol', 0);

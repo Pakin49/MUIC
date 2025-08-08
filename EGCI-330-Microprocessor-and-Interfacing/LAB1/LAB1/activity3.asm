@@ -1,0 +1,5 @@
+start:
+	LDI R20, 0x99
+	MOV	R0,R20
+	MOV R12,R20
+	MOV R31,R20

@@ -1,0 +1,1254 @@
+[
+    {
+        "id": "627a6f8f32777b90",
+        "type": "tab",
+        "label": "Weather",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "63da112b1e230b44",
+        "type": "inject",
+        "z": "627a6f8f32777b90",
+        "name": "timestamp AQI",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 740,
+        "wires": [
+            [
+                "af7ed3f226baf0a4",
+                "487a2f1ec3dccaa4"
+            ]
+        ]
+    },
+    {
+        "id": "af7ed3f226baf0a4",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "randint",
+        "func": "var dt = new Date(msg.payload);\nmsg.time= dt.getDate()+\"/\"\n                +dt.getMonth()+\"/\"\n                +dt.getFullYear()+\" time \"\n                +dt.getHours()+':'\n                +dt.getMinutes()+\":\"\n                +dt.getSeconds()\n\nvar rnd = Math.round(Math.random()*100);\nmsg.payload = rnd;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 380,
+        "wires": [
+            [
+                "03a7be7da3237d17",
+                "a79f3e8e6edc832b"
+            ]
+        ]
+    },
+    {
+        "id": "b360e727ab060429",
+        "type": "inject",
+        "z": "627a6f8f32777b90",
+        "name": "timestamp temp",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 680,
+        "wires": [
+            [
+                "bcb55afce3ee1bcd",
+                "af0825c48327735e"
+            ]
+        ]
+    },
+    {
+        "id": "bcb55afce3ee1bcd",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "randint",
+        "func": "var dt = new Date(msg.payload);\nmsg.time= dt.getDate()+\"/\"\n                +dt.getMonth()+\"/\"\n                +dt.getFullYear()+\" time \"\n                +dt.getHours()+':'\n                +dt.getMinutes()+\":\"\n                +dt.getSeconds()\n\nvar rnd = Math.round(Math.random()*100);\nmsg.payload = rnd;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 320,
+        "wires": [
+            [
+                "62d1a367a2f84507",
+                "267b5e26a2ecef6a"
+            ]
+        ]
+    },
+    {
+        "id": "b7acf1615f3f4fce",
+        "type": "mqtt out",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "topic": "/mu",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "5580919399f3f8a5",
+        "x": 950,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "7d1d02d5a169c5ad",
+        "type": "mqtt in",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "topic": "/mu",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5580919399f3f8a5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 910,
+        "y": 540,
+        "wires": [
+            [
+                "8c51be67b9ca4a84",
+                "726cde38831360b8"
+            ]
+        ]
+    },
+    {
+        "id": "9dc779b3b7f4776e",
+        "type": "ui_text",
+        "z": "627a6f8f32777b90",
+        "group": "43f297094bd4852b",
+        "order": 1,
+        "width": 10,
+        "height": 2,
+        "name": "",
+        "label": "Weather",
+        "format": "Mahidol",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 680,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "62d1a367a2f84507",
+        "type": "ui_gauge",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "group": "43f297094bd4852b",
+        "order": 3,
+        "width": 5,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Temperature Mahidol",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 740,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "03a7be7da3237d17",
+        "type": "ui_gauge",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "group": "43f297094bd4852b",
+        "order": 4,
+        "width": 5,
+        "height": 4,
+        "gtype": "gage",
+        "title": "AQI Mahidol",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 730,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "9dd59e6837e85156",
+        "type": "inject",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 820,
+        "wires": [
+            [
+                "6b9de902aee91dee"
+            ]
+        ]
+    },
+    {
+        "id": "6b9de902aee91dee",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "TimeConvert",
+        "func": "var dt = new Date(msg.payload);\nvar time_msg = {'payload':\" time \"\n                +dt.getHours()+':'\n                +dt.getMinutes()+\":\"\n                +dt.getSeconds()}\nreturn time_msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 620,
+        "wires": [
+            [
+                "24e184a0ded9e279",
+                "bbdbaf8fdef8859e"
+            ]
+        ]
+    },
+    {
+        "id": "24e184a0ded9e279",
+        "type": "ui_text",
+        "z": "627a6f8f32777b90",
+        "group": "43f297094bd4852b",
+        "order": 2,
+        "width": 10,
+        "height": 2,
+        "name": "",
+        "label": "Time",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#5667bd",
+        "x": 710,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "bbdbaf8fdef8859e",
+        "type": "ui_text",
+        "z": "627a6f8f32777b90",
+        "group": "4561d5da0e56fd35",
+        "order": 2,
+        "width": 10,
+        "height": 2,
+        "name": "",
+        "label": "Time",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 690,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "487a2f1ec3dccaa4",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "randint",
+        "func": "var dt = new Date(msg.payload);\nmsg.time= dt.getDate()+\"/\"\n                +dt.getMonth()+\"/\"\n                +dt.getFullYear()+\" time \"\n                +dt.getHours()+':'\n                +dt.getMinutes()+\":\"\n                +dt.getSeconds()\n\nvar rnd = Math.round(Math.random()*100);\nmsg.payload = rnd;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1240,
+        "wires": [
+            [
+                "8ae99083862db46f",
+                "198d2aa70e31efe8"
+            ]
+        ]
+    },
+    {
+        "id": "af0825c48327735e",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "randint",
+        "func": "var dt = new Date(msg.payload);\nmsg.time= dt.getDate()+\"/\"\n                +dt.getMonth()+\"/\"\n                +dt.getFullYear()+\" time \"\n                +dt.getHours()+':'\n                +dt.getMinutes()+\":\"\n                +dt.getSeconds()\n\nvar rnd = Math.round(Math.random()*100);\nmsg.payload = rnd;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 1100,
+        "wires": [
+            [
+                "92b267f8fc4c50e1",
+                "3c2d0c7a1e3498dd"
+            ]
+        ]
+    },
+    {
+        "id": "92b267f8fc4c50e1",
+        "type": "ui_gauge",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "group": "4561d5da0e56fd35",
+        "order": 3,
+        "width": 5,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Temperature Thammasat",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 710,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "8ae99083862db46f",
+        "type": "ui_gauge",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "group": "4561d5da0e56fd35",
+        "order": 4,
+        "width": 5,
+        "height": 4,
+        "gtype": "gage",
+        "title": "AQI Thammasat",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 580,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "dd447476cc029651",
+        "type": "ui_text",
+        "z": "627a6f8f32777b90",
+        "group": "4561d5da0e56fd35",
+        "order": 1,
+        "width": 10,
+        "height": 2,
+        "name": "",
+        "label": "Weather",
+        "format": "Thammasat",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 700,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "474c5b62f88c3c27",
+        "type": "mqtt out",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "topic": "/tu",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "5580919399f3f8a5",
+        "x": 850,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "b7c1ce7e51a2d977",
+        "type": "aedes broker",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "mqtt_port": 1883,
+        "mqtt_ws_bind": "port",
+        "mqtt_ws_port": "",
+        "mqtt_ws_path": "",
+        "cert": "",
+        "key": "",
+        "certname": "",
+        "keyname": "",
+        "persistence_bind": "memory",
+        "dburl": "",
+        "usetls": false,
+        "x": 170,
+        "y": 620,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3c2d0c7a1e3498dd",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "Message Temp",
+        "func": "msg.payload = {\n    \"type\": \"Temperature\",\n    \"value\": msg.payload, \n    \"time\": msg.time\n    };\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1160,
+        "wires": [
+            [
+                "474c5b62f88c3c27"
+            ]
+        ]
+    },
+    {
+        "id": "a79f3e8e6edc832b",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "Message AQI",
+        "func": "msg.payload = {\n    \"type\": \"AQI\",\n    \"value\": msg.payload, // Ensure this is correctly set from the previous node\n    \"time\": msg.time      // Ensure this is correctly set from the previous node\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 460,
+        "wires": [
+            [
+                "b7acf1615f3f4fce"
+            ]
+        ]
+    },
+    {
+        "id": "198d2aa70e31efe8",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "Message AQI",
+        "func": "msg.payload = {\n    \"type\": \"AQI\",\n    \"value\": msg.payload, // Ensure this is correctly set from the previous node\n    \"time\": msg.time      // Ensure this is correctly set from the previous node\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1300,
+        "wires": [
+            [
+                "474c5b62f88c3c27"
+            ]
+        ]
+    },
+    {
+        "id": "a79497945b896d92",
+        "type": "http request",
+        "z": "627a6f8f32777b90",
+        "name": "Line Notify",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://notify-api.line.me/api/notify",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 2030,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "990894d23e7acd98",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "d": true,
+        "name": "Line Authorization",
+        "func": "msg.headers = {\n    'content-type':'application/x-www-form-urlencoded',\n    'Authorization':'Bearer 1JyWPTXubEATdz1bMH2n6UXx86OzpycZorWGjtwwaSj'\n};\n\nmsg.payload = {\n    'message':msg.payload\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1810,
+        "y": 740,
+        "wires": [
+            [
+                "a79497945b896d92"
+            ]
+        ]
+    },
+    {
+        "id": "863a58d711f9dc25",
+        "type": "mongodb in",
+        "z": "627a6f8f32777b90",
+        "mongodb": "340fe5da47f0b9a7",
+        "name": "",
+        "collection": "mu",
+        "operation": "find",
+        "x": 1600,
+        "y": 1240,
+        "wires": [
+            [
+                "4ca319546f8864f3"
+            ]
+        ]
+    },
+    {
+        "id": "1b37b68179af3b67",
+        "type": "http in",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "url": "/mu",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 1400,
+        "y": 1240,
+        "wires": [
+            [
+                "863a58d711f9dc25"
+            ]
+        ]
+    },
+    {
+        "id": "4ca319546f8864f3",
+        "type": "http response",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1770,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "ffc1b0867ae3fc1f",
+        "type": "mqtt in",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "topic": "/tu",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5580919399f3f8a5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 970,
+        "y": 980,
+        "wires": [
+            [
+                "8861476b9965d570",
+                "1b9029aafbe9ece8"
+            ]
+        ]
+    },
+    {
+        "id": "8c51be67b9ca4a84",
+        "type": "switch",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Temperature",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "AQI",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1090,
+        "y": 540,
+        "wires": [
+            [
+                "ebd9c512ae15903f"
+            ],
+            [
+                "4a411617f1871b0e"
+            ]
+        ]
+    },
+    {
+        "id": "ebd9c512ae15903f",
+        "type": "switch",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload.value",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "40",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1250,
+        "y": 500,
+        "wires": [
+            [
+                "5d1209e210e52b68"
+            ]
+        ]
+    },
+    {
+        "id": "4a411617f1871b0e",
+        "type": "switch",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload.value",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "50",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1250,
+        "y": 600,
+        "wires": [
+            [
+                "5d1209e210e52b68"
+            ]
+        ]
+    },
+    {
+        "id": "5d1209e210e52b68",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "function 3",
+        "func": "if (msg.payload.type === \"Temperature\")\n{\n    global.set(\"temp1\",msg.payload.value)\n}\nif (msg.payload.type === \"AQI\"){\n   global.set(\"aqi1\",msg.payload.value)\n}\nif (global.get(\"temp1\")>40 && global.get(\"aqi1\")>50){\nmsg.payload = \"Location: Mahidol, Temperature: \"\n+global.get(\"temp1\")+\" AQI: \"+global.get(\"aqi1\");\nreturn msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1480,
+        "y": 560,
+        "wires": [
+            [
+                "990894d23e7acd98"
+            ]
+        ]
+    },
+    {
+        "id": "e18d4880dd1f0ae4",
+        "type": "mongodb out",
+        "z": "627a6f8f32777b90",
+        "mongodb": "340fe5da47f0b9a7",
+        "name": "",
+        "collection": "mu",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 1440,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "267b5e26a2ecef6a",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "Message Temp",
+        "func": "msg.payload = {\n    \"type\": \"Temperature\",\n    \"value\": msg.payload, // Ensure this is correctly set from the previous node\n    \"time\": msg.time      // Ensure this is correctly set from the previous node\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 260,
+        "wires": [
+            [
+                "b7acf1615f3f4fce"
+            ]
+        ]
+    },
+    {
+        "id": "726cde38831360b8",
+        "type": "json",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1230,
+        "y": 360,
+        "wires": [
+            [
+                "e18d4880dd1f0ae4"
+            ]
+        ]
+    },
+    {
+        "id": "4fc42c08607fe754",
+        "type": "http in",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "url": "/mu",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 1080,
+        "y": 300,
+        "wires": [
+            [
+                "726cde38831360b8"
+            ]
+        ]
+    },
+    {
+        "id": "2ab0147b835f230c",
+        "type": "http in",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "url": "/mu",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 1250,
+        "y": 1320,
+        "wires": [
+            [
+                "0c07fdadaacdfc6e"
+            ]
+        ]
+    },
+    {
+        "id": "0c07fdadaacdfc6e",
+        "type": "mongodb out",
+        "z": "627a6f8f32777b90",
+        "mongodb": "340fe5da47f0b9a7",
+        "name": "",
+        "collection": "mu",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "delete",
+        "x": 1480,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "3781f0fd1a8fda0f",
+        "type": "inject",
+        "z": "627a6f8f32777b90",
+        "name": "Resest DB",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "  {}",
+        "payloadType": "json",
+        "x": 1260,
+        "y": 1380,
+        "wires": [
+            [
+                "0c07fdadaacdfc6e",
+                "c5c7a4c978e00404"
+            ]
+        ]
+    },
+    {
+        "id": "7af609743e5b842f",
+        "type": "http in",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "url": "/tu",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 1160,
+        "y": 740,
+        "wires": [
+            [
+                "1b9029aafbe9ece8"
+            ]
+        ]
+    },
+    {
+        "id": "1b9029aafbe9ece8",
+        "type": "json",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1310,
+        "y": 800,
+        "wires": [
+            [
+                "2439b0c8d25a46f7"
+            ]
+        ]
+    },
+    {
+        "id": "2439b0c8d25a46f7",
+        "type": "mongodb out",
+        "z": "627a6f8f32777b90",
+        "mongodb": "340fe5da47f0b9a7",
+        "name": "",
+        "collection": "tu",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 1510,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "8861476b9965d570",
+        "type": "switch",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Temperature",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "AQI",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1170,
+        "y": 980,
+        "wires": [
+            [
+                "f27481cfe5a16a5c"
+            ],
+            [
+                "2173beae944e7541"
+            ]
+        ]
+    },
+    {
+        "id": "f27481cfe5a16a5c",
+        "type": "switch",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload.value",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "40",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1330,
+        "y": 940,
+        "wires": [
+            [
+                "cd7990582ae15545"
+            ]
+        ]
+    },
+    {
+        "id": "2173beae944e7541",
+        "type": "switch",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "property": "payload.value",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "50",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1330,
+        "y": 1040,
+        "wires": [
+            [
+                "cd7990582ae15545"
+            ]
+        ]
+    },
+    {
+        "id": "cd7990582ae15545",
+        "type": "function",
+        "z": "627a6f8f32777b90",
+        "name": "function 4",
+        "func": "if (msg.payload.type === \"Temperature\")\n{\n    global.set(\"temp2\",msg.payload.value)\n}\nif (msg.payload.type === \"AQI\"){\n   global.set(\"aqi2\",msg.payload.value)\n}\nif (global.get(\"temp2\")>40 && global.get(\"aqi2\")>50){\nmsg.payload = \"Location: Thammasat, Temperature: \"\n+global.get(\"temp2\")+\" AQI: \"+global.get(\"aqi2\");\nreturn msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1500,
+        "y": 980,
+        "wires": [
+            [
+                "990894d23e7acd98"
+            ]
+        ]
+    },
+    {
+        "id": "d7f5212227c5e7e1",
+        "type": "http in",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "url": "/tu",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 1390,
+        "y": 1180,
+        "wires": [
+            [
+                "25b393ed3fa5ecdb"
+            ]
+        ]
+    },
+    {
+        "id": "25b393ed3fa5ecdb",
+        "type": "mongodb in",
+        "z": "627a6f8f32777b90",
+        "mongodb": "340fe5da47f0b9a7",
+        "name": "",
+        "collection": "tu",
+        "operation": "find",
+        "x": 1590,
+        "y": 1180,
+        "wires": [
+            [
+                "48bcc907ef16fbf7"
+            ]
+        ]
+    },
+    {
+        "id": "48bcc907ef16fbf7",
+        "type": "http response",
+        "z": "627a6f8f32777b90",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1770,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "c5c7a4c978e00404",
+        "type": "mongodb out",
+        "z": "627a6f8f32777b90",
+        "mongodb": "340fe5da47f0b9a7",
+        "name": "",
+        "collection": "tu",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "delete",
+        "x": 1470,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "cdb0c8928b4fcac8",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "4561d5da0e56fd35",
+        "order": 5,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "7a7b465338a8b069",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "4561d5da0e56fd35",
+        "order": 6,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "440e8098efe798ff",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "4561d5da0e56fd35",
+        "order": 7,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "8b5f9270311db66b",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "4561d5da0e56fd35",
+        "order": 8,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "61380d42f091b2cb",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "43f297094bd4852b",
+        "order": 5,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "b56a706b55cdc19b",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "43f297094bd4852b",
+        "order": 6,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "0cb7a0486f0d9fa3",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "43f297094bd4852b",
+        "order": 7,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "159fcf7a7bdb62cf",
+        "type": "ui_spacer",
+        "z": "627a6f8f32777b90",
+        "name": "spacer",
+        "group": "43f297094bd4852b",
+        "order": 8,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "5580919399f3f8a5",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "157.230.247.10",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "43f297094bd4852b",
+        "type": "ui_group",
+        "name": "MU",
+        "tab": "8f36c0a1a179dc53",
+        "order": 1,
+        "disp": true,
+        "width": 20,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4561d5da0e56fd35",
+        "type": "ui_group",
+        "name": "Thammasat",
+        "tab": "3fa8e32062075b3d",
+        "order": 1,
+        "disp": true,
+        "width": 20,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "340fe5da47f0b9a7",
+        "type": "mongodb",
+        "hostname": "127.0.0.1",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "iotdb",
+        "name": ""
+    },
+    {
+        "id": "8f36c0a1a179dc53",
+        "type": "ui_tab",
+        "name": "Mahidol",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "3fa8e32062075b3d",
+        "type": "ui_tab",
+        "name": "Thammasat",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    }
+]

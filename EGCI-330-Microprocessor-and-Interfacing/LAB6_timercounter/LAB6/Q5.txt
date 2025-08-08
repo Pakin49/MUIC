@@ -1,0 +1,10 @@
+5.1 :   lowest frequency = highest period TC0
+	TCNT0 = 0-255 => 256 count, Prescaler = 1024 ,CLK = 6.25 * 10^-8
+	T  = 256*1024*6.25*10-8 = 0.016384 s
+	f = 1/T = 61 Hz
+5.2: lowest frequency = highest period TC1
+	TCNT1 = 65536 , prescaler =1024, CLK = 6.25 * 10^-8
+	T = 65536*1024*6.25^10-8= 4.1943
+	f = 0.2384
+5.3 when the TCNTn reach the maximum 255->0 or 65535->0 which set the overflow flag
+5.4 when the TCNTn exceed the the OCRnA or OCRnB if we want count 100 times we need to set OCRnX to 99 -> 100th will set the overflow flag

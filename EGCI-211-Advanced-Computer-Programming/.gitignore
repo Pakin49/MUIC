@@ -1,0 +1,5 @@
+desktop.ini
+.vscode/
+*.out
+*.exe
+*.o

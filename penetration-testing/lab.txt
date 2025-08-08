@@ -1,0 +1,7 @@
+Target network
+172.28.128.0/24
+
+1. scan to find host in the network using nmap
+nmap -sn 172.28.128.0/24
+
+2. 
