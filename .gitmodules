@@ -1,3 +1,6 @@
 [submodule "EGCI463-Pattern-Recognition/Pattern-EGCI463"]
 	path = EGCI463-Pattern-Recognition/AjMing
 	url = https://github.com/AjMing/Pattern-EGCI463.git
+[submodule "pattern-recognition/Ajming"]
+	path = pattern-recognition/Ajming
+	url = https://github.com/AjMing/Pattern-EGCI463.git
