@@ -22,7 +22,7 @@
         <parameter key="use_relative_increase" value="true"/>
         <parameter key="alpha" value="0.05"/>
         <process expanded="true">
-          <operator activated="true" class="split_validation" compatibility="10.0.000" expanded="true" height="124" name="Split Validation" width="90" x="45" y="34">
+          <operator activated="true" class="split_validation" compatibility="10.0.000" expanded="true" height="124" name="Split Validation" width="90" x="112" y="34">
             <parameter key="create_complete_model" value="false"/>
             <parameter key="split" value="relative"/>
             <parameter key="split_ratio" value="0.7"/>
