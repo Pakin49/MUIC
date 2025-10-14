@@ -1,5 +1,5 @@
 #include<stdio.h>
-void main()
+int main()
 {
   int i;
   double num,sum = 0;
@@ -13,4 +13,5 @@ void main()
       sum+=num;
   }
     printf("Output: %lf",sum);
+  return 0;
 }
