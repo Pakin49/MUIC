@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.9.003">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.9.003" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="9.9.003" expanded="true" height="68" name="Retrieve Golf" width="90" x="45" y="34">
+        <parameter key="repository_entry" value="//Samples/data/Golf"/>
+      </operator>
+      <operator activated="true" class="generate_id" compatibility="9.9.003" expanded="true" height="82" name="Generate ID" width="90" x="179" y="34">
+        <parameter key="create_nominal_ids" value="false"/>
+        <parameter key="offset" value="0"/>
+      </operator>
+      <operator activated="true" class="bootstrapping_validation" compatibility="9.9.003" expanded="true" height="145" name="Validation (bootstrapping)" width="90" x="313" y="34">
+        <parameter key="create_complete_model" value="false"/>
+        <parameter key="number_of_validations" value="3"/>
+        <parameter key="sample_ratio" value="1.0"/>
+        <parameter key="use_weights" value="true"/>
+        <parameter key="average_performances_only" value="true"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <process expanded="true">
+          <operator activated="true" breakpoints="before" class="concurrency:parallel_decision_tree" compatibility="9.9.003" expanded="true" height="103" name="Decision Tree" width="90" x="45" y="34">
+            <parameter key="criterion" value="gain_ratio"/>
+            <parameter key="maximal_depth" value="10"/>
+            <parameter key="apply_pruning" value="true"/>
+            <parameter key="confidence" value="0.1"/>
+            <parameter key="apply_prepruning" value="true"/>
+            <parameter key="minimal_gain" value="0.01"/>
+            <parameter key="minimal_leaf_size" value="2"/>
+            <parameter key="minimal_size_for_split" value="4"/>
+            <parameter key="number_of_prepruning_alternatives" value="3"/>
+          </operator>
+          <operator activated="true" class="apply_model" compatibility="9.9.003" expanded="true" height="82" name="Apply Model (2)" width="90" x="179" y="34">
+            <list key="application_parameters"/>
+            <parameter key="create_view" value="false"/>
+          </operator>
+          <operator activated="true" class="performance" compatibility="9.9.003" expanded="true" height="82" name="Performance training" width="90" x="179" y="136">
+            <parameter key="use_example_weights" value="true"/>
+          </operator>
+          <connect from_port="training" to_op="Decision Tree" to_port="training set"/>
+          <connect from_op="Decision Tree" from_port="model" to_op="Apply Model (2)" to_port="model"/>
+          <connect from_op="Decision Tree" from_port="exampleSet" to_op="Apply Model (2)" to_port="unlabelled data"/>
+          <connect from_op="Apply Model (2)" from_port="labelled data" to_op="Performance training" to_port="labelled data"/>
+          <connect from_op="Apply Model (2)" from_port="model" to_port="model"/>
+          <connect from_op="Performance training" from_port="performance" to_port="through 1"/>
+          <portSpacing port="source_training" spacing="0"/>
+          <portSpacing port="sink_model" spacing="0"/>
+          <portSpacing port="sink_through 1" spacing="63"/>
+          <portSpacing port="sink_through 2" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" breakpoints="after" class="apply_model" compatibility="9.9.003" expanded="true" height="82" name="Apply Model" width="90" x="45" y="34">
+            <list key="application_parameters"/>
+            <parameter key="create_view" value="false"/>
+          </operator>
+          <operator activated="true" class="performance" compatibility="9.9.003" expanded="true" height="82" name="Performance testing" width="90" x="179" y="34">
+            <parameter key="use_example_weights" value="true"/>
+          </operator>
+          <connect from_port="model" to_op="Apply Model" to_port="model"/>
+          <connect from_port="test set" to_op="Apply Model" to_port="unlabelled data"/>
+          <connect from_port="through 1" to_port="averagable 2"/>
+          <connect from_op="Apply Model" from_port="labelled data" to_op="Performance testing" to_port="labelled data"/>
+          <connect from_op="Performance testing" from_port="performance" to_port="averagable 1"/>
+          <portSpacing port="source_model" spacing="0"/>
+          <portSpacing port="source_test set" spacing="0"/>
+          <portSpacing port="source_through 1" spacing="42"/>
+          <portSpacing port="source_through 2" spacing="0"/>
+          <portSpacing port="sink_averagable 1" spacing="0"/>
+          <portSpacing port="sink_averagable 2" spacing="63"/>
+          <portSpacing port="sink_averagable 3" spacing="0"/>
+          <description align="left" color="orange" colored="true" height="53" resized="true" width="231" x="37" y="160">Use breakpoints to check training &amp;amp; testing records in each round</description>
+        </process>
+      </operator>
+      <connect from_op="Retrieve Golf" from_port="output" to_op="Generate ID" to_port="example set input"/>
+      <connect from_op="Generate ID" from_port="example set output" to_op="Validation (bootstrapping)" to_port="training"/>
+      <connect from_op="Validation (bootstrapping)" from_port="model" to_port="result 1"/>
+      <connect from_op="Validation (bootstrapping)" from_port="averagable 1" to_port="result 2"/>
+      <connect from_op="Validation (bootstrapping)" from_port="averagable 2" to_port="result 3"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="21"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <description align="left" color="yellow" colored="true" height="66" resized="true" width="375" x="27" y="191">3 bootstrapping validations (sample ratio = 1)&lt;br&gt;Use record ID to see how bootstrapping sampling works in each bootstrapping validation round</description>
+      <description align="left" color="orange" colored="true" height="50" resized="true" width="100" x="40" y="111">Also try IrisFromWeka</description>
+    </process>
+  </operator>
+</process>

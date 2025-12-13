@@ -1,0 +1,8 @@
+p(Tuna) = 5/8
+p(Salmon) = 3/8
+
+given width = 12 and height = 9 how to calculate probabability
+of fish is Salmon or Tuna
+
+P(Salmon | w=12,h=9)= P(w=12,h=9 | Salmon) * P(Salmon) /  P(w=12,h=9)
+                    = P(w=12|Salmon)*P(w=9|Salmon)* P(Salmon) / [P(w=12|salmon) * P(h=9|salmon) * P(salmon) + P(w=12|tuna) * P(h=9|tuna) * P(tuna)]

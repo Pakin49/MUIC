@@ -1,0 +1,27 @@
+@relation dentition
+@attribute name string
+@attribute TI numeric
+@attribute BI numeric
+@attribute TC numeric
+@attribute BC numeric
+@attribute TP numeric
+@attribute BP numeric
+@attribute TM numeric
+@attribute BM numeric
+% name,TI,BI,TC,BC,TP,BP,TM,BM
+@data
+'beaver',1,1,0,0,2,1,3,3
+'groundhog',1,1,0,0,2,1,3,3
+'chipmunk',1,1,0,0,2,1,3,3
+'porcupine',1,1,0,0,1,1,3,3
+'guinea pig',1,1,0,0,1,1,3,3
+'wolf',3,3,1,1,4,4,2,3
+'fox',3,3,1,1,4,4,2,3
+'bear',3,3,1,1,4,4,2,3
+'raccoon',3,3,1,1,4,4,3,2
+'sea otter',3,2,1,1,3,3,1,2
+'fur seal',3,2,1,1,4,4,1,1
+'walrus',1,0,1,1,3,3,0,0
+'moose',0,4,0,0,3,3,3,3
+'reindeer',0,4,1,0,3,3,3,3
+'mountain sheep',0,4,0,0,3,3,3,3

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.10.013">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.10.013" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="9.10.013" expanded="true" height="68" name="Retrieve CreditGFromWeka" width="90" x="45" y="34">
+        <parameter key="repository_entry" value="data/CreditGFromWeka"/>
+      </operator>
+      <operator activated="true" class="split_data" compatibility="9.10.013" expanded="true" height="103" name="Split Data" width="90" x="179" y="34">
+        <enumeration key="partitions">
+          <parameter key="ratio" value="0.7"/>
+          <parameter key="ratio" value="0.3"/>
+        </enumeration>
+        <parameter key="sampling_type" value="automatic"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+      </operator>
+      <operator activated="true" class="concurrency:parallel_decision_tree" compatibility="9.10.013" expanded="true" height="103" name="Decision Tree" width="90" x="380" y="34">
+        <parameter key="criterion" value="gain_ratio"/>
+        <parameter key="maximal_depth" value="10"/>
+        <parameter key="apply_pruning" value="true"/>
+        <parameter key="confidence" value="0.1"/>
+        <parameter key="apply_prepruning" value="true"/>
+        <parameter key="minimal_gain" value="0.01"/>
+        <parameter key="minimal_leaf_size" value="2"/>
+        <parameter key="minimal_size_for_split" value="4"/>
+        <parameter key="number_of_prepruning_alternatives" value="3"/>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="9.10.013" expanded="true" height="82" name="Apply Model" width="90" x="380" y="187">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="multiply" compatibility="9.10.013" expanded="true" height="103" name="Multiply" width="90" x="380" y="289"/>
+      <operator activated="true" class="select_attributes" compatibility="9.10.013" expanded="true" height="82" name="Select Attributes" width="90" x="581" y="289">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="class|prediction(class)"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="write_csv" compatibility="9.10.013" expanded="true" height="82" name="Write CSV" width="90" x="715" y="289">
+        <parameter key="csv_file" value="D:/EGCO425_65/Labs/processes/ch7/data/output7-1.csv"/>
+        <parameter key="column_separator" value=";"/>
+        <parameter key="write_attribute_names" value="true"/>
+        <parameter key="quote_nominal_values" value="true"/>
+        <parameter key="format_date_attributes" value="true"/>
+        <parameter key="date_format" value="yyyy-MM-dd HH:mm:ss"/>
+        <parameter key="append_to_file" value="false"/>
+        <parameter key="encoding" value="SYSTEM"/>
+      </operator>
+      <operator activated="true" class="performance" compatibility="9.10.013" expanded="true" height="82" name="Performance" width="90" x="514" y="34">
+        <parameter key="use_example_weights" value="true"/>
+      </operator>
+      <operator activated="true" class="select_subprocess" compatibility="9.10.013" expanded="true" height="82" name="Select Subprocess" width="90" x="648" y="85">
+        <parameter key="select_which" value="1"/>
+        <process expanded="true">
+          <operator activated="true" class="performance_costs" compatibility="9.10.013" expanded="true" height="82" name="Performance Cost" width="90" x="45" y="34">
+            <parameter key="keep_exampleSet" value="false"/>
+            <parameter key="cost_matrix" value="[0.0 20.0;1.0 0.0]"/>
+            <enumeration key="class_order_definition">
+              <parameter key="class_name" value="good"/>
+              <parameter key="class_name" value="bad"/>
+            </enumeration>
+          </operator>
+          <connect from_port="input 1" to_op="Performance Cost" to_port="example set"/>
+          <connect from_op="Performance Cost" from_port="performance" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <description align="left" color="green" colored="true" height="69" resized="true" width="299" x="10" y="126">Cost matrix --&amp;gt; minimize cost&lt;br&gt;Good customer labelled bad : low penalty = 1&lt;br&gt;Bad customer labelled good : high penalty = 20</description>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="performance_costs" compatibility="9.10.013" expanded="true" height="82" name="Performance Profit" width="90" x="45" y="34">
+            <parameter key="keep_exampleSet" value="false"/>
+            <parameter key="cost_matrix" value="[10.0 0.0;0.0 1.0]"/>
+            <enumeration key="class_order_definition">
+              <parameter key="class_name" value="good"/>
+              <parameter key="class_name" value="bad"/>
+            </enumeration>
+          </operator>
+          <connect from_port="input 1" to_op="Performance Profit" to_port="example set"/>
+          <connect from_op="Performance Profit" from_port="performance" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <description align="left" color="green" colored="true" height="68" resized="true" width="255" x="10" y="126">Profit matrix --&amp;gt; maximize profit&lt;br&gt;Detect good customer : high profit = 10&lt;br&gt;Detect bad customer : low profit = 1</description>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="performance_costs" compatibility="9.10.013" expanded="true" height="82" name="Performance Cost &amp; Profit" width="90" x="45" y="34">
+            <parameter key="keep_exampleSet" value="false"/>
+            <parameter key="cost_matrix" value="[-10.0 20.0;1.0 -1.0]"/>
+            <enumeration key="class_order_definition">
+              <parameter key="class_name" value="good"/>
+              <parameter key="class_name" value="bad"/>
+            </enumeration>
+          </operator>
+          <connect from_port="input 1" to_op="Performance Cost &amp; Profit" to_port="example set"/>
+          <connect from_op="Performance Cost &amp; Profit" from_port="performance" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <description align="left" color="green" colored="true" height="69" resized="true" width="179" x="10" y="126">Consider both cost &amp;amp; profit --&amp;gt; set one positive and the other negative</description>
+        </process>
+      </operator>
+      <connect from_op="Retrieve CreditGFromWeka" from_port="output" to_op="Split Data" to_port="example set"/>
+      <connect from_op="Split Data" from_port="partition 1" to_op="Decision Tree" to_port="training set"/>
+      <connect from_op="Split Data" from_port="partition 2" to_op="Apply Model" to_port="unlabelled data"/>
+      <connect from_op="Decision Tree" from_port="model" to_op="Apply Model" to_port="model"/>
+      <connect from_op="Apply Model" from_port="labelled data" to_op="Multiply" to_port="input"/>
+      <connect from_op="Apply Model" from_port="model" to_port="result 3"/>
+      <connect from_op="Multiply" from_port="output 1" to_op="Performance" to_port="labelled data"/>
+      <connect from_op="Multiply" from_port="output 2" to_op="Select Attributes" to_port="example set input"/>
+      <connect from_op="Select Attributes" from_port="example set output" to_op="Write CSV" to_port="input"/>
+      <connect from_op="Performance" from_port="performance" to_port="result 1"/>
+      <connect from_op="Performance" from_port="example set" to_op="Select Subprocess" to_port="input 1"/>
+      <connect from_op="Select Subprocess" from_port="output 1" to_port="result 2"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="21"/>
+      <portSpacing port="sink_result 3" spacing="126"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <description align="left" color="yellow" colored="false" height="88" resized="true" width="144" x="10" y="112">Run Ex 7.0 to prepare ARFF data &amp;amp; put it in repository first</description>
+      <description align="left" color="orange" colored="true" height="89" resized="false" width="277" x="10" y="207">Class attribute = &amp;quot;class&amp;quot;&lt;br&gt;Order of class labels from confusion matrix&lt;br&gt;1. good&lt;br&gt;2. bad</description>
+      <description align="left" color="orange" colored="true" height="54" resized="true" width="119" x="168" y="145">0.7 for training&lt;br/&gt;0.3 for testing</description>
+      <description align="left" color="yellow" colored="true" height="72" resized="true" width="195" x="545" y="177">Subprocess 1 : consider cost&lt;br&gt;Subprocess 2 : consider profit&lt;br/&gt;Subprocess 3 : consider both</description>
+      <description align="left" color="green" colored="true" height="159" resized="true" width="285" x="545" y="270">&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; Write actual and predicted class to CSV to further analyze in Jupyter</description>
+    </process>
+  </operator>
+</process>

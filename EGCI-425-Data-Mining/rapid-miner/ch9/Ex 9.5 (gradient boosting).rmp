@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.9.003">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.9.003" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="select_subprocess" compatibility="9.9.003" expanded="true" height="103" name="Select Subprocess" width="90" x="45" y="136">
+        <parameter key="select_which" value="2"/>
+        <process expanded="true">
+          <operator activated="true" class="retrieve" compatibility="9.9.003" expanded="true" height="68" name="Retrieve Deals" width="90" x="45" y="34">
+            <parameter key="repository_entry" value="//Samples/data/Deals"/>
+          </operator>
+          <operator activated="true" class="retrieve" compatibility="9.9.003" expanded="true" height="68" name="Retrieve Deals-Testset" width="90" x="45" y="136">
+            <parameter key="repository_entry" value="//Samples/data/Deals-Testset"/>
+          </operator>
+          <connect from_op="Retrieve Deals" from_port="output" to_port="output 1"/>
+          <connect from_op="Retrieve Deals-Testset" from_port="output" to_port="output 2"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="63"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <description align="left" color="orange" colored="true" height="50" resized="true" width="101" x="150" y="79">Data for classification</description>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="retrieve" compatibility="9.9.003" expanded="true" height="68" name="Retrieve Polynomial" width="90" x="45" y="34">
+            <parameter key="repository_entry" value="//Samples/data/Polynomial"/>
+          </operator>
+          <operator activated="true" class="split_data" compatibility="9.9.003" expanded="true" height="103" name="Split Data" width="90" x="45" y="136">
+            <enumeration key="partitions">
+              <parameter key="ratio" value="0.7"/>
+              <parameter key="ratio" value="0.3"/>
+            </enumeration>
+            <parameter key="sampling_type" value="automatic"/>
+            <parameter key="use_local_random_seed" value="false"/>
+            <parameter key="local_random_seed" value="1992"/>
+          </operator>
+          <connect from_op="Retrieve Polynomial" from_port="output" to_op="Split Data" to_port="example set"/>
+          <connect from_op="Split Data" from_port="partition 1" to_port="output 1"/>
+          <connect from_op="Split Data" from_port="partition 2" to_port="output 2"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="84"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <description align="left" color="orange" colored="true" height="51" resized="true" width="90" x="155" y="52">Data for regression</description>
+        </process>
+        <process expanded="true">
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="h2o:gradient_boosted_trees" compatibility="9.9.000" expanded="true" height="103" name="Gradient Boosted Trees" width="90" x="179" y="34">
+        <parameter key="number_of_trees" value="20"/>
+        <parameter key="reproducible" value="false"/>
+        <parameter key="maximum_number_of_threads" value="4"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="maximal_depth" value="5"/>
+        <parameter key="min_rows" value="10.0"/>
+        <parameter key="min_split_improvement" value="1.0E-5"/>
+        <parameter key="number_of_bins" value="20"/>
+        <parameter key="learning_rate" value="0.1"/>
+        <parameter key="sample_rate" value="1.0"/>
+        <parameter key="distribution" value="AUTO"/>
+        <parameter key="early_stopping" value="false"/>
+        <parameter key="stopping_rounds" value="1"/>
+        <parameter key="stopping_metric" value="AUTO"/>
+        <parameter key="stopping_tolerance" value="0.001"/>
+        <list key="monotone_constraints"/>
+        <parameter key="max_runtime_seconds" value="0"/>
+        <list key="expert_parameters"/>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="9.9.003" expanded="true" height="82" name="Apply Model" width="90" x="313" y="187">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="performance" compatibility="9.9.003" expanded="true" height="82" name="Performance classification" width="90" x="514" y="34">
+        <parameter key="use_example_weights" value="true"/>
+      </operator>
+      <operator activated="false" class="performance_regression" compatibility="9.9.003" expanded="true" height="82" name="Performance regression" width="90" x="514" y="136">
+        <parameter key="main_criterion" value="first"/>
+        <parameter key="root_mean_squared_error" value="true"/>
+        <parameter key="absolute_error" value="false"/>
+        <parameter key="relative_error" value="false"/>
+        <parameter key="relative_error_lenient" value="false"/>
+        <parameter key="relative_error_strict" value="false"/>
+        <parameter key="normalized_absolute_error" value="false"/>
+        <parameter key="root_relative_squared_error" value="true"/>
+        <parameter key="squared_error" value="false"/>
+        <parameter key="correlation" value="true"/>
+        <parameter key="squared_correlation" value="true"/>
+        <parameter key="prediction_average" value="false"/>
+        <parameter key="spearman_rho" value="false"/>
+        <parameter key="kendall_tau" value="false"/>
+        <parameter key="skip_undefined_labels" value="true"/>
+        <parameter key="use_example_weights" value="true"/>
+      </operator>
+      <connect from_op="Select Subprocess" from_port="output 1" to_op="Gradient Boosted Trees" to_port="training set"/>
+      <connect from_op="Select Subprocess" from_port="output 2" to_op="Apply Model" to_port="unlabelled data"/>
+      <connect from_op="Gradient Boosted Trees" from_port="model" to_op="Apply Model" to_port="model"/>
+      <connect from_op="Apply Model" from_port="labelled data" to_op="Performance classification" to_port="labelled data"/>
+      <connect from_op="Apply Model" from_port="model" to_port="result 3"/>
+      <connect from_op="Performance classification" from_port="performance" to_port="result 1"/>
+      <connect from_op="Performance classification" from_port="example set" to_port="result 2"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="126"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <description align="left" color="yellow" colored="false" height="61" resized="true" width="235" x="10" y="250">Subprocess 1 : data for classification&lt;br/&gt;Subprocess 2 : data for regression</description>
+      <description align="left" color="orange" colored="true" height="68" resized="true" width="140" x="296" y="10">Important params&lt;br&gt;are number of trees and learning rate</description>
+    </process>
+  </operator>
+</process>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="12.0.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="12.0.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="12.0.001" expanded="true" height="68" name="Retrieve wholesale (2)" width="90" x="45" y="34">
+        <parameter key="repository_entry" value="data/wholesale"/>
+      </operator>
+      <operator activated="true" class="select_subprocess" compatibility="12.0.001" expanded="true" height="145" name="Select Subprocess" width="90" x="179" y="34">
+        <parameter key="select_which" value="3"/>
+        <process expanded="true">
+          <connect from_port="input 1" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <portSpacing port="sink_output 5" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="normalize" compatibility="12.0.001" expanded="true" height="103" name="Normalize" width="90" x="45" y="34">
+            <parameter key="return_preprocessing_model" value="false"/>
+            <parameter key="attribute_filter_type" value="subset"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value="Milk|Grocery|Frozen|Fresh|Detergents_Paper|Delicatessen"/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="numeric"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="real"/>
+            <parameter key="block_type" value="value_series"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_series_end"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="false"/>
+            <parameter key="method" value="range transformation"/>
+            <parameter key="min" value="0.0"/>
+            <parameter key="max" value="1.0"/>
+            <parameter key="allow_negative_values" value="false"/>
+          </operator>
+          <connect from_port="input 1" to_op="Normalize" to_port="example set input"/>
+          <connect from_op="Normalize" from_port="example set output" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <portSpacing port="sink_output 5" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="normalize" compatibility="12.0.001" expanded="true" height="103" name="Normalize (2)" width="90" x="45" y="34">
+            <parameter key="return_preprocessing_model" value="false"/>
+            <parameter key="attribute_filter_type" value="subset"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value="Milk|Grocery|Frozen|Fresh|Detergents_Paper|Delicatessen"/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="numeric"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="real"/>
+            <parameter key="block_type" value="value_series"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_series_end"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="false"/>
+            <parameter key="method" value="range transformation"/>
+            <parameter key="min" value="0.0"/>
+            <parameter key="max" value="1.0"/>
+            <parameter key="allow_negative_values" value="false"/>
+          </operator>
+          <operator activated="true" class="detect_outlier_distances" compatibility="12.0.001" expanded="true" height="82" name="Detect Outlier (Distances)" width="90" x="179" y="34">
+            <parameter key="number_of_neighbors" value="10"/>
+            <parameter key="number_of_outliers" value="10"/>
+            <parameter key="distance_function" value="euclidian distance"/>
+          </operator>
+          <connect from_port="input 1" to_op="Normalize (2)" to_port="example set input"/>
+          <connect from_op="Normalize (2)" from_port="example set output" to_op="Detect Outlier (Distances)" to_port="example set input"/>
+          <connect from_op="Detect Outlier (Distances)" from_port="example set output" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <portSpacing port="sink_output 5" spacing="0"/>
+        </process>
+      </operator>
+      <connect from_op="Retrieve wholesale (2)" from_port="output" to_op="Select Subprocess" to_port="input 1"/>
+      <connect from_op="Select Subprocess" from_port="output 1" to_port="result 1"/>
+      <connect from_op="Select Subprocess" from_port="output 2" to_port="result 2"/>
+      <connect from_op="Select Subprocess" from_port="output 3" to_port="result 3"/>
+      <connect from_op="Select Subprocess" from_port="output 4" to_port="result 4"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <portSpacing port="sink_result 5" spacing="0"/>
+    </process>
+  </operator>
+</process>

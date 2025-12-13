@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="11.1.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="11.1.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="11.1.001" expanded="true" height="68" name="Retrieve IrisFromWeka" width="90" x="45" y="34">
+        <parameter key="repository_entry" value="data/IrisFromWeka"/>
+      </operator>
+      <operator activated="true" class="select_subprocess" compatibility="11.1.001" expanded="true" height="124" name="Select Subprocess" width="90" x="179" y="34">
+        <parameter key="select_which" value="1"/>
+        <process expanded="true">
+          <operator activated="true" class="concurrency:optimize_parameters_grid" compatibility="11.1.001" expanded="true" height="124" name="Optimize Parameters (Grid)" width="90" x="45" y="34">
+            <list key="parameters">
+              <parameter key="Decision Tree.criterion" value="gain_ratio,information_gain,gini_index,accuracy"/>
+              <parameter key="Decision Tree.maximal_depth" value="[1;10.0;10;linear]"/>
+              <parameter key="Decision Tree.minimal_leaf_size" value="[2;10.0;10;linear]"/>
+            </list>
+            <parameter key="error_handling" value="fail on error"/>
+            <parameter key="log_performance" value="true"/>
+            <parameter key="log_all_criteria" value="true"/>
+            <parameter key="synchronize" value="false"/>
+            <parameter key="enable_parallel_execution" value="true"/>
+            <process expanded="true">
+              <operator activated="true" class="split_data" compatibility="10.0.000" expanded="true" height="103" name="Split Data" width="90" x="45" y="34">
+                <enumeration key="partitions">
+                  <parameter key="ratio" value="0.7"/>
+                  <parameter key="ratio" value="0.3"/>
+                </enumeration>
+                <parameter key="sampling_type" value="automatic"/>
+                <parameter key="use_local_random_seed" value="false"/>
+                <parameter key="local_random_seed" value="1992"/>
+              </operator>
+              <operator activated="true" class="concurrency:parallel_decision_tree" compatibility="11.1.001" expanded="true" height="103" name="Decision Tree" width="90" x="179" y="34">
+                <parameter key="criterion" value="accuracy"/>
+                <parameter key="maximal_depth" value="10"/>
+                <parameter key="apply_pruning" value="true"/>
+                <parameter key="confidence" value="0.1"/>
+                <parameter key="apply_prepruning" value="true"/>
+                <parameter key="minimal_gain" value="0.01"/>
+                <parameter key="minimal_leaf_size" value="10"/>
+                <parameter key="minimal_size_for_split" value="4"/>
+                <parameter key="number_of_prepruning_alternatives" value="3"/>
+              </operator>
+              <operator activated="true" class="apply_model" compatibility="11.1.001" expanded="true" height="82" name="Apply Model" width="90" x="179" y="187">
+                <list key="application_parameters"/>
+              </operator>
+              <operator activated="true" class="performance" compatibility="11.1.001" expanded="true" height="82" name="Performance" width="90" x="313" y="34">
+                <parameter key="use_example_weights" value="true"/>
+              </operator>
+              <connect from_port="input 1" to_op="Split Data" to_port="example set"/>
+              <connect from_op="Split Data" from_port="partition 1" to_op="Decision Tree" to_port="training set"/>
+              <connect from_op="Split Data" from_port="partition 2" to_op="Apply Model" to_port="unlabelled data"/>
+              <connect from_op="Decision Tree" from_port="model" to_op="Apply Model" to_port="model"/>
+              <connect from_op="Apply Model" from_port="labelled data" to_op="Performance" to_port="labelled data"/>
+              <connect from_op="Apply Model" from_port="model" to_port="model"/>
+              <connect from_op="Performance" from_port="performance" to_port="performance"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_performance" spacing="0"/>
+              <portSpacing port="sink_model" spacing="126"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+            </process>
+          </operator>
+          <connect from_port="input 1" to_op="Optimize Parameters (Grid)" to_port="input 1"/>
+          <connect from_op="Optimize Parameters (Grid)" from_port="performance" to_port="output 1"/>
+          <connect from_op="Optimize Parameters (Grid)" from_port="model" to_port="output 2"/>
+          <connect from_op="Optimize Parameters (Grid)" from_port="parameter set" to_port="output 3"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <description align="left" color="yellow" colored="true" height="86" resized="true" width="197" x="10" y="170">Decision tree : grid search for&lt;br&gt;- split criterion&lt;br&gt;- max depth&lt;br&gt;- min leaf size</description>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="concurrency:optimize_parameters_grid" compatibility="11.1.001" expanded="true" height="124" name="Optimize Parameters (Grid) (2)" width="90" x="45" y="34">
+            <list key="parameters">
+              <parameter key="k-NN.k" value="[1.0;10.0;10;linear]"/>
+            </list>
+            <parameter key="error_handling" value="fail on error"/>
+            <parameter key="log_performance" value="true"/>
+            <parameter key="log_all_criteria" value="true"/>
+            <parameter key="synchronize" value="false"/>
+            <parameter key="enable_parallel_execution" value="true"/>
+            <process expanded="true">
+              <operator activated="true" class="split_data" compatibility="10.0.000" expanded="true" height="103" name="Split Data (2)" width="90" x="45" y="34">
+                <enumeration key="partitions">
+                  <parameter key="ratio" value="0.7"/>
+                  <parameter key="ratio" value="0.3"/>
+                </enumeration>
+                <parameter key="sampling_type" value="automatic"/>
+                <parameter key="use_local_random_seed" value="false"/>
+                <parameter key="local_random_seed" value="1992"/>
+              </operator>
+              <operator activated="true" class="k_nn" compatibility="11.1.001" expanded="true" height="82" name="k-NN" width="90" x="179" y="34">
+                <parameter key="k" value="5"/>
+                <parameter key="weighted_vote" value="true"/>
+                <parameter key="measure_types" value="NumericalMeasures"/>
+                <parameter key="mixed_measure" value="MixedEuclideanDistance"/>
+                <parameter key="nominal_measure" value="NominalDistance"/>
+                <parameter key="numerical_measure" value="EuclideanDistance"/>
+                <parameter key="divergence" value="GeneralizedIDivergence"/>
+                <parameter key="kernel_type" value="radial"/>
+                <parameter key="kernel_gamma" value="1.0"/>
+                <parameter key="kernel_sigma1" value="1.0"/>
+                <parameter key="kernel_sigma2" value="0.0"/>
+                <parameter key="kernel_sigma3" value="2.0"/>
+                <parameter key="kernel_degree" value="3.0"/>
+                <parameter key="kernel_shift" value="1.0"/>
+                <parameter key="kernel_a" value="1.0"/>
+                <parameter key="kernel_b" value="0.0"/>
+              </operator>
+              <operator activated="true" class="apply_model" compatibility="11.1.001" expanded="true" height="82" name="Apply Model (2)" width="90" x="179" y="187">
+                <list key="application_parameters"/>
+              </operator>
+              <operator activated="true" class="performance" compatibility="11.1.001" expanded="true" height="82" name="Performance (2)" width="90" x="313" y="34">
+                <parameter key="use_example_weights" value="true"/>
+              </operator>
+              <connect from_port="input 1" to_op="Split Data (2)" to_port="example set"/>
+              <connect from_op="Split Data (2)" from_port="partition 1" to_op="k-NN" to_port="training set"/>
+              <connect from_op="Split Data (2)" from_port="partition 2" to_op="Apply Model (2)" to_port="unlabelled data"/>
+              <connect from_op="k-NN" from_port="model" to_op="Apply Model (2)" to_port="model"/>
+              <connect from_op="Apply Model (2)" from_port="labelled data" to_op="Performance (2)" to_port="labelled data"/>
+              <connect from_op="Apply Model (2)" from_port="model" to_port="model"/>
+              <connect from_op="Performance (2)" from_port="performance" to_port="performance"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_performance" spacing="0"/>
+              <portSpacing port="sink_model" spacing="126"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+            </process>
+          </operator>
+          <connect from_port="input 1" to_op="Optimize Parameters (Grid) (2)" to_port="input 1"/>
+          <connect from_op="Optimize Parameters (Grid) (2)" from_port="performance" to_port="output 1"/>
+          <connect from_op="Optimize Parameters (Grid) (2)" from_port="model" to_port="output 2"/>
+          <connect from_op="Optimize Parameters (Grid) (2)" from_port="parameter set" to_port="output 3"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <description align="left" color="yellow" colored="false" height="50" resized="true" width="146" x="10" y="170">KNN : grid search for&lt;br/&gt;- K</description>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="concurrency:optimize_parameters_grid" compatibility="11.1.001" expanded="true" height="124" name="Optimize Parameters (Grid) (3)" width="90" x="45" y="34">
+            <list key="parameters">
+              <parameter key="Decision Tree (2).criterion" value="gain_ratio,information_gain,gini_index,accuracy"/>
+              <parameter key="Decision Tree (2).maximal_depth" value="[1.0;10.0;10;linear]"/>
+              <parameter key="Decision Tree (2).minimal_leaf_size" value="[2.0;10.0;10;linear]"/>
+            </list>
+            <parameter key="error_handling" value="fail on error"/>
+            <parameter key="log_performance" value="true"/>
+            <parameter key="log_all_criteria" value="false"/>
+            <parameter key="synchronize" value="false"/>
+            <parameter key="enable_parallel_execution" value="true"/>
+            <process expanded="true">
+              <operator activated="true" class="split_validation" compatibility="10.0.000" expanded="true" height="145" name="Validation (split)" width="90" x="45" y="34">
+                <parameter key="create_complete_model" value="false"/>
+                <parameter key="split" value="relative"/>
+                <parameter key="split_ratio" value="0.7"/>
+                <parameter key="training_set_size" value="100"/>
+                <parameter key="test_set_size" value="-1"/>
+                <parameter key="sampling_type" value="automatic"/>
+                <parameter key="use_local_random_seed" value="false"/>
+                <parameter key="local_random_seed" value="1992"/>
+                <process expanded="true">
+                  <operator activated="true" class="concurrency:parallel_decision_tree" compatibility="11.1.001" expanded="true" height="103" name="Decision Tree (2)" width="90" x="45" y="34">
+                    <parameter key="criterion" value="accuracy"/>
+                    <parameter key="maximal_depth" value="3"/>
+                    <parameter key="apply_pruning" value="true"/>
+                    <parameter key="confidence" value="0.1"/>
+                    <parameter key="apply_prepruning" value="true"/>
+                    <parameter key="minimal_gain" value="0.01"/>
+                    <parameter key="minimal_leaf_size" value="2"/>
+                    <parameter key="minimal_size_for_split" value="4"/>
+                    <parameter key="number_of_prepruning_alternatives" value="3"/>
+                  </operator>
+                  <connect from_port="training" to_op="Decision Tree (2)" to_port="training set"/>
+                  <connect from_op="Decision Tree (2)" from_port="model" to_port="model"/>
+                  <connect from_op="Decision Tree (2)" from_port="exampleSet" to_port="through 1"/>
+                  <portSpacing port="source_training" spacing="0"/>
+                  <portSpacing port="sink_model" spacing="0"/>
+                  <portSpacing port="sink_through 1" spacing="0"/>
+                  <portSpacing port="sink_through 2" spacing="0"/>
+                  <description align="left" color="orange" colored="true" height="51" resized="false" width="135" x="10" y="145">Use 70% = 105 records for training</description>
+                </process>
+                <process expanded="true">
+                  <operator activated="true" class="apply_model" compatibility="11.1.001" expanded="true" height="82" name="Apply Model (4)" width="90" x="45" y="34">
+                    <list key="application_parameters"/>
+                  </operator>
+                  <operator activated="true" class="performance" compatibility="11.1.001" expanded="true" height="82" name="Performance testing" width="90" x="179" y="34">
+                    <parameter key="use_example_weights" value="true"/>
+                  </operator>
+                  <connect from_port="model" to_op="Apply Model (4)" to_port="model"/>
+                  <connect from_port="test set" to_op="Apply Model (4)" to_port="unlabelled data"/>
+                  <connect from_op="Apply Model (4)" from_port="labelled data" to_op="Performance testing" to_port="labelled data"/>
+                  <connect from_op="Performance testing" from_port="performance" to_port="averagable 1"/>
+                  <portSpacing port="source_model" spacing="0"/>
+                  <portSpacing port="source_test set" spacing="0"/>
+                  <portSpacing port="source_through 1" spacing="0"/>
+                  <portSpacing port="source_through 2" spacing="0"/>
+                  <portSpacing port="sink_averagable 1" spacing="0"/>
+                  <portSpacing port="sink_averagable 2" spacing="0"/>
+                  <description align="left" color="orange" colored="true" height="50" resized="true" width="224" x="45" y="124">Use 30% = 45 records for testing&lt;br&gt;&lt;br&gt;</description>
+                </process>
+              </operator>
+              <connect from_port="input 1" to_op="Validation (split)" to_port="training"/>
+              <connect from_op="Validation (split)" from_port="model" to_port="model"/>
+              <connect from_op="Validation (split)" from_port="averagable 1" to_port="performance"/>
+              <portSpacing port="source_input 1" spacing="0"/>
+              <portSpacing port="source_input 2" spacing="0"/>
+              <portSpacing port="sink_performance" spacing="0"/>
+              <portSpacing port="sink_model" spacing="0"/>
+              <portSpacing port="sink_output 1" spacing="0"/>
+            </process>
+          </operator>
+          <connect from_port="input 1" to_op="Optimize Parameters (Grid) (3)" to_port="input 1"/>
+          <connect from_op="Optimize Parameters (Grid) (3)" from_port="performance" to_port="output 1"/>
+          <connect from_op="Optimize Parameters (Grid) (3)" from_port="model" to_port="output 2"/>
+          <connect from_op="Optimize Parameters (Grid) (3)" from_port="parameter set" to_port="output 3"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <description align="left" color="red" colored="true" height="76" resized="true" width="163" x="10" y="172">Same as subprocess 1, &lt;br/&gt;but use Split Validation&lt;br/&gt;instead of manual split</description>
+        </process>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="11.1.001" expanded="true" height="68" name="Retrieve CreditGFromWeka" width="90" x="45" y="391">
+        <parameter key="repository_entry" value="data/CreditGFromWeka"/>
+      </operator>
+      <operator activated="true" class="nominal_to_binominal" compatibility="11.1.001" expanded="true" height="103" name="Nominal to Binominal" width="90" x="179" y="391">
+        <parameter key="return_preprocessing_model" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="nominal"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="file_path"/>
+        <parameter key="block_type" value="single_value"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="single_value"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="transform_binominal" value="false"/>
+        <parameter key="use_underscore_in_name" value="false"/>
+      </operator>
+      <connect from_op="Retrieve IrisFromWeka" from_port="output" to_op="Select Subprocess" to_port="input 1"/>
+      <connect from_op="Select Subprocess" from_port="output 1" to_port="result 1"/>
+      <connect from_op="Select Subprocess" from_port="output 2" to_port="result 2"/>
+      <connect from_op="Select Subprocess" from_port="output 3" to_port="result 3"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <description align="left" color="yellow" colored="true" height="66" resized="true" width="187" x="10" y="171">Subprocess 1 : decision tree&lt;br&gt;Subprocess 2 : KNN&lt;br/&gt;Subprocess 3 : validation&lt;br&gt;</description>
+      <description align="left" color="blue" colored="true" height="66" resized="true" width="179" x="205" y="172">out 1 = best performance&lt;br/&gt;out 2 = best model&lt;br/&gt;out 3 = best parameters</description>
+    </process>
+  </operator>
+</process>
